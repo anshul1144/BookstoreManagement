@@ -1,10 +1,10 @@
-package con.jdbcconnectivity.BookstoreManagement.service;
+package service;
 
 
 
 import java.util.List;
 
-import con.jdbcconnectivity.BookstoreManagement.model.Book;
+import model.Book;
 
 public interface BookService {
     void addBook(Book book);

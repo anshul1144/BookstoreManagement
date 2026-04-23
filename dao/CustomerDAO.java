@@ -1,8 +1,8 @@
-package con.jdbcconnectivity.BookstoreManagement.dao;
+package dao;
 
 import java.util.List;
 
-import con.jdbcconnectivity.BookstoreManagement.model.Customer;
+import model.Customer;
 
 public interface CustomerDAO {
     void addCustomer(Customer customer);

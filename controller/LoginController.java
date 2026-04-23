@@ -1,14 +1,19 @@
-package con.jdbcconnectivity.BookstoreManagement.controller;
+package controller;
 
-import con.jdbcconnectivity.BookstoreManagement.model.User;
-import con.jdbcconnectivity.BookstoreManagement.service.impl.UserServiceImpl;
+import model.User;
+import service.impl.UserServiceImpl;
+import util.InputUtil;
 
 import java.util.Scanner;
 
 public class LoginController {
 
-    private Scanner sc = new Scanner(System.in);
-    private UserServiceImpl service = new UserServiceImpl();
+    private final Scanner sc;
+    private final UserServiceImpl service = new UserServiceImpl();
+
+    public LoginController(Scanner sc) {
+        this.sc = sc;
+    }
 
     public boolean loginMenu() {
         while (true) {
@@ -17,7 +22,7 @@ public class LoginController {
             System.out.println("2. Login");
             System.out.println("3. Exit");
 
-            int ch = sc.nextInt();
+            int ch = InputUtil.readInt(sc, "Enter choice: ");
 
             switch (ch) {
                 case 1:
@@ -38,10 +43,8 @@ public class LoginController {
     }
 
     private void register() {
-        System.out.print("Username: ");
-        String username = sc.next();
-        System.out.print("Password: ");
-        String password = sc.next();
+        String username = InputUtil.readText(sc, "Username: ");
+        String password = InputUtil.readText(sc, "Password: ");
 
         boolean success = service.register(new User(username, password));
         if (success)
@@ -49,10 +52,8 @@ public class LoginController {
     }
 
     private boolean login() {
-        System.out.print("Username: ");
-        String username = sc.next();
-        System.out.print("Password: ");
-        String password = sc.next();
+        String username = InputUtil.readText(sc, "Username: ");
+        String password = InputUtil.readText(sc, "Password: ");
 
         if (service.login(username, password)) {
             System.out.println("Login successful!");

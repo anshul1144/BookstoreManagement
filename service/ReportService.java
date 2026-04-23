@@ -1,4 +1,4 @@
-package con.jdbcconnectivity.BookstoreManagement.service;
+package service;
 
 public interface ReportService {
     void salesReport();

@@ -1,13 +1,15 @@
-package con.jdbcconnectivity.BookstoreManagement.service.impl;
+package service.impl;
 
-import con.jdbcconnectivity.BookstoreManagement.config.DBConnection;
+import config.DBConnection;
+import service.ReportService;
 
 import java.sql.*;
 
-public class ReportServiceImpl {
+public class ReportServiceImpl implements ReportService {
 
     private Connection con = DBConnection.getConnection();
 
+    @Override
     public void salesReport() {
         try {
             String sql =
@@ -31,6 +33,48 @@ public class ReportServiceImpl {
                         rs.getInt("quantity") + " | " +
                         rs.getDouble("price") + " | " +
                         rs.getDouble("total")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void stockReport() {
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT book_id, title, stock FROM book");
+
+            System.out.println("\nBOOK_ID | TITLE | STOCK");
+            while (rs.next()) {
+                System.out.println(
+                        rs.getString("book_id") + " | " +
+                        rs.getString("title") + " | " +
+                        rs.getInt("stock")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void lowStockReport(int threshold) {
+        try {
+            PreparedStatement ps = con.prepareStatement(
+                    "SELECT book_id, title, stock FROM book WHERE stock < ?"
+            );
+            ps.setInt(1, threshold);
+            ResultSet rs = ps.executeQuery();
+
+            System.out.println("\nLOW STOCK BOOKS (Below " + threshold + ")");
+            System.out.println("BOOK_ID | TITLE | STOCK");
+            while (rs.next()) {
+                System.out.println(
+                        rs.getString("book_id") + " | " +
+                        rs.getString("title") + " | " +
+                        rs.getInt("stock")
                 );
             }
         } catch (Exception e) {

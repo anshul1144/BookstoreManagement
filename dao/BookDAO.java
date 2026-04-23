@@ -1,8 +1,8 @@
-package con.jdbcconnectivity.BookstoreManagement.dao;
+package dao;
 
 import java.util.List;
 
-import con.jdbcconnectivity.BookstoreManagement.model.Book;
+import model.Book;
 
 public interface BookDAO {
     void addBook(Book book);

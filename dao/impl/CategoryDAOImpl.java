@@ -1,4 +1,4 @@
-package con.jdbcconnectivity.BookstoreManagement.dao.impl;
+package dao.impl;
 
 public class CategoryDAOImpl {
 

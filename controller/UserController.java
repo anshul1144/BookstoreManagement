@@ -1,14 +1,19 @@
-package con.jdbcconnectivity.BookstoreManagement.controller;
+package controller;
 
-import con.jdbcconnectivity.BookstoreManagement.model.User;
-import con.jdbcconnectivity.BookstoreManagement.service.impl.UserServiceImpl;
+import model.User;
+import service.impl.UserServiceImpl;
+import util.InputUtil;
 
 import java.util.Scanner;
 
 public class UserController {
 
-    private Scanner sc = new Scanner(System.in);
-    private UserServiceImpl service = new UserServiceImpl();
+    private final Scanner sc;
+    private final UserServiceImpl service = new UserServiceImpl();
+
+    public UserController(Scanner sc) {
+        this.sc = sc;
+    }
 
     public void menu() {
         while (true) {
@@ -18,8 +23,7 @@ public class UserController {
             System.out.println("3. Delete User");
             System.out.println("4. Back");
 
-            System.out.print("Enter choice: ");
-            int ch = sc.nextInt();
+            int ch = InputUtil.readInt(sc, "Enter choice: ");
 
             switch (ch) {
                 case 1:
@@ -44,17 +48,10 @@ public class UserController {
     }
 
     private void addUser() {
-        System.out.print("User ID: ");
-        int id = sc.nextInt();
-
-        System.out.print("Username: ");
-        String username = sc.next();
-
-        System.out.print("Password: ");
-        String password = sc.next();
-
-        System.out.print("Role (ADMIN / STAFF): ");
-        String role = sc.next();
+        int id = InputUtil.readInt(sc, "User ID: ");
+        String username = InputUtil.readText(sc, "Username: ");
+        String password = InputUtil.readText(sc, "Password: ");
+        String role = InputUtil.readText(sc, "Role (ADMIN / STAFF): ");
 
         User user = new User(id, username, password, role);
         service.addUser(user);
@@ -74,8 +71,7 @@ public class UserController {
     }
 
     private void deleteUser() {
-        System.out.print("Enter User ID to delete: ");
-        int id = sc.nextInt();
+        int id = InputUtil.readInt(sc, "Enter User ID to delete: ");
         service.deleteUser(id);
         System.out.println("User deleted successfully.");
     }

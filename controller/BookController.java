@@ -1,14 +1,19 @@
-package con.jdbcconnectivity.BookstoreManagement.controller;
+package controller;
 
-import con.jdbcconnectivity.BookstoreManagement.model.Book;
-import con.jdbcconnectivity.BookstoreManagement.service.impl.BookServiceImpl;
+import model.Book;
+import service.impl.BookServiceImpl;
+import util.InputUtil;
 
 import java.util.Scanner;
 
 public class BookController {
 
-    private Scanner sc = new Scanner(System.in);
-    private BookServiceImpl service = new BookServiceImpl();
+    private final Scanner sc;
+    private final BookServiceImpl service = new BookServiceImpl();
+
+    public BookController(Scanner sc) {
+        this.sc = sc;
+    }
 
     public void menu() {
         while (true) {
@@ -18,7 +23,7 @@ public class BookController {
             System.out.println("4. Delete Book");
             System.out.println("5. Back");
 
-            int ch = sc.nextInt();
+            int ch = InputUtil.readInt(sc, "Enter choice: ");
 
             switch (ch) {
                 case 1:
@@ -47,17 +52,10 @@ public class BookController {
     }
 
     private void add() {
-        System.out.print("Book ID: ");
-        String id = sc.next();
-
-        System.out.print("Title: ");
-        String title = sc.next();
-
-        System.out.print("Price: ");
-        double price = sc.nextDouble();
-
-        System.out.print("Stock: ");
-        int stock = sc.nextInt();
+        String id = InputUtil.readText(sc, "Book ID: ");
+        String title = InputUtil.readText(sc, "Title: ");
+        double price = InputUtil.readDouble(sc, "Price: ");
+        int stock = InputUtil.readInt(sc, "Stock: ");
 
         service.addBook(new Book(id, title, price, stock));
     }
@@ -74,14 +72,9 @@ public class BookController {
     }
 
     private void update() {
-        System.out.print("Book ID: ");
-        String id = sc.next();
-
-        System.out.print("New Price: ");
-        double price = sc.nextDouble();
-
-        System.out.print("New Stock: ");
-        int stock = sc.nextInt();
+        String id = InputUtil.readText(sc, "Book ID: ");
+        double price = InputUtil.readDouble(sc, "New Price: ");
+        int stock = InputUtil.readInt(sc, "New Stock: ");
 
         Book b = new Book();
         b.setBookId(id);
@@ -92,7 +85,6 @@ public class BookController {
     }
 
     private void delete() {
-        System.out.print("Book ID: ");
-        service.deleteBook(sc.next());
+        service.deleteBook(InputUtil.readText(sc, "Book ID: "));
     }
 }

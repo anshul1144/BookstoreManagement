@@ -1,7 +1,6 @@
-package con.jdbcconnectivity.BookstoreManagement.dao;
-
+package dao;
 
 public interface SalesDAO {
-    void makeSale(String bookId, int quantity);
+    int createSale(String customerId);
+    void addSaleDetails(int saleId, String bookId, int quantity);
 }
-

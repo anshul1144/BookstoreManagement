@@ -1,19 +1,23 @@
-package con.jdbcconnectivity.BookstoreManagement.controller;
+package controller;
 import java.util.Scanner;
 
-import con.jdbcconnectivity.BookstoreManagement.service.impl.SalesServiceImpl;
+import service.impl.SalesServiceImpl;
+import util.InputUtil;
 
 public class SalesController {
 
-    private Scanner sc = new Scanner(System.in);
-    private SalesServiceImpl service = new SalesServiceImpl();
+    private final Scanner sc;
+    private final SalesServiceImpl service = new SalesServiceImpl();
+
+    public SalesController(Scanner sc) {
+        this.sc = sc;
+    }
 
     public void menu() {
-        System.out.print("Book ID: ");
-        String bookId = sc.next();
-        System.out.print("Quantity: ");
-        int qty = sc.nextInt();
+        String customerId = InputUtil.readText(sc, "Customer ID: ");
+        String bookId = InputUtil.readText(sc, "Book ID: ");
+        int qty = InputUtil.readInt(sc, "Quantity: ");
 
-        service.sellBook(bookId, qty);
+        service.makeSale(customerId, bookId, qty);
     }
 }

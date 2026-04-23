@@ -1,18 +1,21 @@
-package con.jdbcconnectivity.BookstoreManagement.dao.impl;
+package dao.impl;
 
-import con.jdbcconnectivity.BookstoreManagement.config.DBConnection;
-import con.jdbcconnectivity.BookstoreManagement.dao.BookDAO;
-import con.jdbcconnectivity.BookstoreManagement.model.Book;
+import config.DBConnection;
+import dao.BookDAO;
+import model.Book;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAOImpl implements BookDAO {
 
-    private Connection con = DBConnection.getConnection();
+    private final Connection con = DBConnection.getConnection();
 
-    // ================= ADD BOOK =================
     @Override
     public void addBook(Book book) {
         try {
@@ -25,14 +28,13 @@ public class BookDAOImpl implements BookDAO {
             ps.setInt(4, book.getStock());
 
             ps.executeUpdate();
-            System.out.println("✅ Book added successfully");
+            System.out.println("Book added successfully");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // ================= UPDATE BOOK =================
     @Override
     public void updateBook(Book book) {
         try {
@@ -44,14 +46,13 @@ public class BookDAOImpl implements BookDAO {
             ps.setString(3, book.getBookId());
 
             ps.executeUpdate();
-            System.out.println("✅ Book updated successfully");
+            System.out.println("Book updated successfully");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // ================= DELETE BOOK =================
     @Override
     public void deleteBook(String bookId) {
         try {
@@ -61,21 +62,20 @@ public class BookDAOImpl implements BookDAO {
             ps.setString(1, bookId);
 
             ps.executeUpdate();
-            System.out.println("✅ Book deleted successfully");
+            System.out.println("Book deleted successfully");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // ================= VIEW ALL BOOKS =================
     @Override
     public List<Book> getAllBooks() {
         List<Book> list = new ArrayList<>();
 
         try {
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM book");
+            ResultSet rs = st.executeQuery("SELECT book_id, title, price, stock FROM book ORDER BY book_id");
 
             while (rs.next()) {
                 Book book = new Book(
@@ -93,19 +93,19 @@ public class BookDAOImpl implements BookDAO {
         return list;
     }
 
-    // ================= UPDATE STOCK AFTER SALE =================
-    public void updateStock(String bookId, int quantity) {
+    public boolean reduceStockIfAvailable(String bookId, int quantity) {
         try {
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE book SET stock = stock - ? WHERE book_id=?"
+                    "UPDATE book SET stock = stock - ? WHERE book_id=? AND stock >= ?"
             );
             ps.setInt(1, quantity);
             ps.setString(2, bookId);
+            ps.setInt(3, quantity);
 
-            ps.executeUpdate();
-
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

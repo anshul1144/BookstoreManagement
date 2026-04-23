@@ -1,24 +1,34 @@
-package con.jdbcconnectivity.BookstoreManagement;
 
-import con.jdbcconnectivity.BookstoreManagement.controller.*;
+import controller.*;
+import config.DBConnection;
+import util.InputUtil;
 
 import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args) {
+        try {
+            DBConnection.getConnection();
+        } catch (IllegalStateException e) {
+            System.out.println("\nDatabase initialization failed.");
+            System.out.println(e.getMessage());
+            if (e.getCause() != null) {
+                System.out.println("Reason: " + e.getCause().getMessage());
+            }
+            return;
+        }
 
-        LoginController login = new LoginController();
+        Scanner sc = new Scanner(System.in);
+        LoginController login = new LoginController(sc);
 
         // AUTHENTICATION
         if (!login.loginMenu()) return;
 
-        Scanner sc = new Scanner(System.in);
-
-        BookController book = new BookController();
-        CustomerController customer = new CustomerController();
-        SalesController sales = new SalesController();
-        ReportController report = new ReportController();
+        BookController book = new BookController(sc);
+        CustomerController customer = new CustomerController(sc);
+        SalesController sales = new SalesController(sc);
+        ReportController report = new ReportController(sc);
 
         while (true) {
             System.out.println("\n===== BOOK STORE MANAGEMENT =====");
@@ -28,7 +38,7 @@ public class App {
             System.out.println("4. Reports");
             System.out.println("5. Logout");
 
-            int ch = sc.nextInt();
+            int ch = InputUtil.readInt(sc, "Enter choice: ");
 
             switch (ch) {
                 case 1:

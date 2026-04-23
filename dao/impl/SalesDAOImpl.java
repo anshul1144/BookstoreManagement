@@ -1,14 +1,19 @@
-package con.jdbcconnectivity.BookstoreManagement.dao.impl;
+package dao.impl;
 
-import con.jdbcconnectivity.BookstoreManagement.config.DBConnection;
+import config.DBConnection;
+import dao.SalesDAO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-public class SalesDAOImpl {
+public class SalesDAOImpl implements SalesDAO {
 
-    private Connection con = DBConnection.getConnection();
+    private final Connection con = DBConnection.getConnection();
 
-    // CREATE SALE
+    @Override
     public int createSale(String customerId) {
         int saleId = 0;
         try {
@@ -23,23 +28,23 @@ public class SalesDAOImpl {
             if (rs.next()) {
                 saleId = rs.getInt(1);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return saleId;
     }
 
-    // ADD SALE DETAILS
+    @Override
     public void addSaleDetails(int saleId, String bookId, int qty) {
         try {
             PreparedStatement ps = con.prepareStatement(
-                "INSERT INTO sales_details VALUES (?, ?, ?)"
+                "INSERT INTO sales_details(sale_id, book_id, quantity) VALUES (?, ?, ?)"
             );
             ps.setInt(1, saleId);
             ps.setString(2, bookId);
             ps.setInt(3, qty);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

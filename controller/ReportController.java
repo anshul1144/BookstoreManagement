@@ -1,12 +1,17 @@
-package con.jdbcconnectivity.BookstoreManagement.controller;
+package controller;
 import java.util.Scanner;
 
-import con.jdbcconnectivity.BookstoreManagement.service.impl.ReportServiceImpl;
+import service.impl.ReportServiceImpl;
+import util.InputUtil;
 
 public class ReportController {
 
-    private Scanner sc = new Scanner(System.in);
-    private ReportServiceImpl service = new ReportServiceImpl();
+    private final Scanner sc;
+    private final ReportServiceImpl service = new ReportServiceImpl();
+
+    public ReportController(Scanner sc) {
+        this.sc = sc;
+    }
 
     public void menu() {
         while (true) {
@@ -15,7 +20,7 @@ public class ReportController {
             System.out.println("3. Low Stock Report");
             System.out.println("4. Back");
 
-            int ch = sc.nextInt();
+            int ch = InputUtil.readInt(sc, "Enter choice: ");
 
             switch (ch) {
                 case 1:
@@ -27,8 +32,7 @@ public class ReportController {
                     break;
 
                 case 3:
-                    System.out.print("Enter stock threshold: ");
-                    service.lowStockReport(sc.nextInt());
+                    service.lowStockReport(InputUtil.readInt(sc, "Enter stock threshold: "));
                     break;
 
                 case 4:
@@ -40,5 +44,4 @@ public class ReportController {
         }
     }
 }
-
 

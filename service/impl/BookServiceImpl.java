@@ -1,7 +1,7 @@
-package con.jdbcconnectivity.BookstoreManagement.service.impl;
-import con.jdbcconnectivity.BookstoreManagement.dao.impl.BookDAOImpl;
-import con.jdbcconnectivity.BookstoreManagement.model.Book;
-import con.jdbcconnectivity.BookstoreManagement.service.BookService;
+package service.impl;
+import dao.impl.BookDAOImpl;
+import model.Book;
+import service.BookService;
 
 import java.util.List;
 

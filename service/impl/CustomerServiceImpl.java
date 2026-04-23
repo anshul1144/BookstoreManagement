@@ -1,20 +1,22 @@
-package con.jdbcconnectivity.BookstoreManagement.service.impl;
+package service.impl;
 
-import con.jdbcconnectivity.BookstoreManagement.dao.impl.CustomerDAOImpl;
-import con.jdbcconnectivity.BookstoreManagement.model.Customer;
+import dao.impl.CustomerDAOImpl;
+import model.Customer;
+import service.CustomerService;
 
 import java.util.List;
 
-public class CustomerServiceImpl {
+public class CustomerServiceImpl implements CustomerService {
 
-    private CustomerDAOImpl dao = new CustomerDAOImpl();
+    private final CustomerDAOImpl dao = new CustomerDAOImpl();
 
+    @Override
     public void addCustomer(Customer customer) {
         dao.addCustomer(customer);
     }
 
+    @Override
     public List<Customer> viewCustomers() {
         return dao.getAllCustomers();
     }
 }
-

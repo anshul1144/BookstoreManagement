@@ -1,20 +1,10 @@
-package con.jdbcconnectivity.BookstoreManagement.service;
-import con.jdbcconnectivity.BookstoreManagement.dao.CustomerDAOImpl;
-import con.jdbcconnectivity.BookstoreManagement.model.Customer;
+package service;
 
 import java.util.List;
 
-public class CustomerServiceImpl implements CustomerService {
+import model.Customer;
 
-    private CustomerDAOImpl dao = new CustomerDAOImpl();
-
-    public void addCustomer(Customer customer) {
-        dao.addCustomer(customer);
-    }
-
-    public List<Customer> viewCustomers() {
-        return dao.getAllCustomers();
-    }
+public interface CustomerService {
+    void addCustomer(Customer customer);
+    List<Customer> viewCustomers();
 }
-
-

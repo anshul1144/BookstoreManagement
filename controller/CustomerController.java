@@ -1,14 +1,19 @@
-package con.jdbcconnectivity.BookstoreManagement.controller;
+package controller;
 
-import con.jdbcconnectivity.BookstoreManagement.model.Customer;
-import con.jdbcconnectivity.BookstoreManagement.service.impl.CustomerServiceImpl;
+import model.Customer;
+import service.impl.CustomerServiceImpl;
+import util.InputUtil;
 
 import java.util.Scanner;
 
 public class CustomerController {
 
-    private Scanner sc = new Scanner(System.in);
-    private CustomerServiceImpl service = new CustomerServiceImpl();
+    private final Scanner sc;
+    private final CustomerServiceImpl service = new CustomerServiceImpl();
+
+    public CustomerController(Scanner sc) {
+        this.sc = sc;
+    }
 
     public void menu() {
         while (true) {
@@ -16,7 +21,7 @@ public class CustomerController {
             System.out.println("2. View Customers");
             System.out.println("3. Back");
 
-            int ch = sc.nextInt();
+            int ch = InputUtil.readInt(sc, "Enter choice: ");
 
             switch (ch) {
                 case 1:
@@ -37,14 +42,9 @@ public class CustomerController {
     }
 
     private void add() {
-        System.out.print("Customer ID: ");
-        String id = sc.next();
-
-        System.out.print("Name: ");
-        String name = sc.next();
-
-        System.out.print("Phone: ");
-        String phone = sc.next();
+        String id = InputUtil.readText(sc, "Customer ID: ");
+        String name = InputUtil.readText(sc, "Name: ");
+        String phone = InputUtil.readText(sc, "Phone: ");
 
         service.addCustomer(new Customer(id, name, phone));
     }

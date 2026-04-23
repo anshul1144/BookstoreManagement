@@ -1,4 +1,4 @@
-package con.jdbcconnectivity.BookstoreManagement.model;
+package model;
 
 public class Customer {
 

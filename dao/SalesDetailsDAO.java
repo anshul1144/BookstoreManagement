@@ -1,4 +1,4 @@
-package con.jdbcconnectivity.BookstoreManagement.dao;
+package dao;
 
 public interface SalesDetailsDAO {
 
